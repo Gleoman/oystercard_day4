@@ -11,7 +11,7 @@ class Oystercard
   end
 
   def top_up(amount)
-    fail_message = "cannot top-up, #{@balance + amount} is greater than limit of #{MAXIMUM_BALANCE}"
+    fail_message = "cannot top-up beyond limit of #{MAXIMUM_BALANCE}"
     raise fail_message if @balance + amount > MAXIMUM_BALANCE
     @balance += amount
   end

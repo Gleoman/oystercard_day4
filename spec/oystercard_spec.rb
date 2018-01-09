@@ -12,7 +12,7 @@ describe Oystercard do
 
     it 'fails to top up beyond maximum balance' do
       oystercard = Oystercard.new(Oystercard::MAXIMUM_BALANCE)
-      expect { oystercard.top_up 1.00 }.to raise_error "cannot top-up, #{oystercard.balance + 1.00} is greater than limit of #{Oystercard::MAXIMUM_BALANCE}"
+      expect { oystercard.top_up 1.00 }.to raise_error "cannot top-up beyond limit of #{Oystercard::MAXIMUM_BALANCE}"
     end
 
   end
