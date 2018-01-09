@@ -3,16 +3,15 @@ class Oystercard
   MINIMUM_FARE = 1.00
   MAXIMUM_BALANCE = 90.00
 
-  attr_reader :balance, :entry_station
-  # attr_accessor :in_journey
+  attr_reader :balance, :journeys, :entry_station, :exit_station
 
   def initialize(initial_balance = 0.00)
     @balance = initial_balance
+    @journeys = {}
   end
 
   def top_up(amount)
-    fail_message = "cannot top-up beyond limit of #{MAXIMUM_BALANCE}"
-    raise fail_message if @balance + amount > MAXIMUM_BALANCE
+    raise "cannot top-up beyond limit of #{MAXIMUM_BALANCE}" if @balance + amount > MAXIMUM_BALANCE
     @balance += amount
   end
 
@@ -21,8 +20,9 @@ class Oystercard
     @entry_station = entry_station
   end
 
-  def touch_out
+  def touch_out(exit_station)
     deduct(MINIMUM_FARE)
+    store_journeys(entry_station, exit_station)
     @entry_station = nil
   end
 
@@ -37,5 +37,8 @@ class Oystercard
     @balance -= amount
   end
 
+  def store_journeys(entry_station, exit_station)
+    @journeys.store(entry_station, exit_station)
+  end
 
 end
