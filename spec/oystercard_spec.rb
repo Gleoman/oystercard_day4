@@ -1,19 +1,17 @@
 require 'oystercard'
 
 describe Oystercard do
-  subject(:oystercard) { described_class.new }
+  subject(:oystercard) { described_class.new(5.00) }
 
-  it 'has a initial balance of 0' do
-    expect(oystercard.balance).to eq 0
-  end
+  describe "#top_up" do
 
-  it 'checks if the card has been topped-up' do
-    expect { oystercard.top_up 1 }.to change { oystercard.balance }.by 1
-  end
+    it 'checks if the card has been topped-up' do
+      expect { oystercard.top_up 1.00 }.to change { oystercard.balance }.by 1.00
+    end
 
   it 'fails to top up beyond £90' do
-    fail_message = "cannot top-up, #{oystercard.balance + 100} is greater than limit of #{Oystercard::MAXIMUM_BALANCE}"
-    expect { oystercard.top_up 100 }.to raise_error fail_message
+    oystercard = Oystercard.new(Oystercard::MAXIMUM_BALANCE)
+    expect { oystercard.top_up 1.00 }.to raise_error "cannot top-up, #{oystercard.balance + 1.00} is greater than limit of #{Oystercard::MAXIMUM_BALANCE}"
   end
 
   it 'checks if the money has been deducted from the card' do

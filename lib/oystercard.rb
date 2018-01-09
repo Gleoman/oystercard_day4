@@ -1,13 +1,13 @@
 class Oystercard
   #controls the user balance
 
-  MINIMUM_FARE = 1
-  MAXIMUM_BALANCE = 90
+  MINIMUM_FARE = 1.00
+  MAXIMUM_BALANCE = 90.00
 
   attr_reader :balance
 
-  def initialize
-    @balance = 0
+  def initialize(initial_balance = 0.00)
+    @balance = initial_balance
     @in_journey = false
   end
 
