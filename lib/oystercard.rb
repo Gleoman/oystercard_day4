@@ -1,3 +1,5 @@
+# require 'pry'
+
 class Oystercard
 
   MINIMUM_FARE = 1.00
@@ -38,7 +40,9 @@ class Oystercard
   end
 
   def store_journeys(entry_station, exit_station)
-    @journeys.store(entry_station, exit_station)
+    # binding.pry
+    @journeys[:entry_station] = entry_station
+    @journeys[:exit_station] =  exit_station
   end
 
 end

@@ -2,8 +2,10 @@ require 'oystercard'
 
 describe Oystercard do
   subject(:oystercard) { described_class.new(5.00) }
+  let (:journey) { {entry_station: entry_station, exit_station: exit_station} }
   let (:entry_station) {double :entry_station}
   let (:exit_station) {double :exit_station}
+
 
   it 'should have an empty list of journeys by default' do
     expect(oystercard.journeys).to be_empty
@@ -12,7 +14,8 @@ describe Oystercard do
   it 'check that touching in and touching out creates one journey' do
     oystercard.touch_in(entry_station)
     oystercard.touch_out(exit_station)
-    expect(oystercard.journeys).to include({entry_station => exit_station})
+    # binding.pry
+    expect(oystercard.journeys).to include(journey)
   end
 
   describe '#top_up' do
