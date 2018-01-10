@@ -19,6 +19,7 @@ class Oystercard
 
   def touch_in(entry_station)
     raise 'Not enough money on your card' if @balance < MINIMUM_FARE
+    # new journey
     @entry_station = entry_station
   end
 
@@ -27,11 +28,6 @@ class Oystercard
     store_journeys(entry_station, exit_station)
     @entry_station = nil
   end
-
-  def in_journey?
-    !entry_station.empty?
-  end
-
 
   private
 
