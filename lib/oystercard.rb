@@ -26,20 +26,18 @@ class Oystercard
   end
 
   def touch_out(exit_station)
-    @journey.finish(exit_station)
-    deduct
+    deduct(exit_station)
   end
 
   private
 
-  def deduct
+  def deduct(exit_station)
+    @journey.finish(exit_station)
     @balance -= @journey.fare
   end
 
   def store_journeys(entry_station, exit_station)
-    # binding.pry
     @journeys[:entry_station] = entry_station
     @journeys[:exit_station] =  exit_station
   end
-
 end

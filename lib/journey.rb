@@ -1,5 +1,6 @@
-class Journey
 
+class Journey
+  
   PENALTY_FARE = 6.00
   MINIMUM_FARE = 1.00
   attr_accessor :entry_station, :exit_station
@@ -18,21 +19,10 @@ class Journey
   end
 
   def fare
-      if @entry_station == nil
-        Journey::PENALTY_FARE
-      elsif @exit_station == nil
-        Journey::PENALTY_FARE
-      else
-        MINIMUM_FARE
-      end
+    complete? == true ? MINIMUM_FARE : PENALTY_FARE
   end
 
   def complete?
-    if @entry_station && @exit_station
-      true
-    else
-      false
-    end
+    @entry_station.nil? || @exit_station.nil? ? false : true
   end
-
 end
