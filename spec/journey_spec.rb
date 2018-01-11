@@ -4,28 +4,26 @@ describe Journey do
 
   let (:entry_station) {double :entry_station}
   let (:exit_station) {double :exit_station}
-  subject(:journey) { described_class.new(entry_station) }
+  subject(:journey) { described_class.new }
 
   it 'creates a new journey' do
     expect(journey).to be_a Journey
   end
 
-  it 'receives an entry station' do
-    journey.entry_station = "Old Street"
-    expect(journey.entry_station).to eq "Old Street"
+  describe '#start' do
+    it 'starts the journey with an entry station' do
+      expect(journey.start(entry_station)).to eq entry_station
+    end
   end
 
-  it 'receives an exit station' do
-    journey.exit_station = "Haggerston"
-    expect(journey.exit_station).to eq "Haggerston"
+  it 'finishes the journey with an exit station' do
+    expect(journey.finish(exit_station)).to eq exit_station
   end
 
   describe '#fare' do
     it 'provides for the minimum fare' do
       journey.entry_station = "Old Street"
       journey.exit_station = "Haggerston"
-      puts journey.entry_station
-      puts journey.exit_station
       expect(journey.fare).to eq Journey::MINIMUM_FARE
     end
 
