@@ -1,15 +1,20 @@
 # require 'pry'
+require_relative 'journey'
 
 class Oystercard
 
   MINIMUM_FARE = 1.00
   MAXIMUM_BALANCE = 90.00
 
-  attr_reader :balance, :journeys, :entry_station, :exit_station
+  attr_reader :balance, :journeys, :journey
 
-  def initialize(initial_balance = 0.00)
+  # :entry_station, :exit_station
+
+  def initialize(initial_balance = 0.00, journey_class = Journey)
     @balance = initial_balance
     @journeys = {}
+    @journey_class = journey_class
+    @journey = nil
   end
 
   def top_up(amount)
@@ -19,14 +24,14 @@ class Oystercard
 
   def touch_in(entry_station)
     raise 'Not enough money on your card' if @balance < MINIMUM_FARE
-    # new journey
-    @entry_station = entry_station
+    @journey = @journey_class.new(entry_station)
   end
 
   def touch_out(exit_station)
-    deduct(MINIMUM_FARE)
-    store_journeys(entry_station, exit_station)
-    @entry_station = nil
+    @journey.exit_station = exit_station
+    # deduct(MINIMUM_FARE)
+    # store_journeys(entry_station, exit_station)
+    # @entry_station = nil
   end
 
   private
