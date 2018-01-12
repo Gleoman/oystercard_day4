@@ -10,16 +10,33 @@ describe Journey do
   end
 
   describe '#start' do
+
+    it 'responds (journey) to start method' do
+      expect(journey).to respond_to(:start)
+    end
+
     it 'starts the journey with an entry station' do
       expect(journey.start(entry_station)).to eq entry_station
     end
   end
 
-  it 'finishes the journey with an exit station' do
-    expect(journey.finish(exit_station)).to eq exit_station
+  describe '#finish' do
+
+    it 'responds (journey) to finish method' do
+      expect(journey).to respond_to(:finish)
+    end
+
+    it 'finishes the journey with an exit station' do
+      expect(journey.finish(exit_station)).to eq exit_station
+    end
   end
 
   describe '#fare' do
+
+    it 'responds (journey) to fare method' do
+      expect(journey).to respond_to(:fare)
+    end
+
     it 'provides for the minimum fare' do
       journey.entry_station = 'Old Street'
       journey.exit_station = 'Haggerston'
@@ -39,6 +56,11 @@ describe Journey do
   end
 
   describe '#complete?' do
+
+    it 'responds (journey) to complete? method' do
+      expect(journey).to respond_to(:complete?)
+    end
+
     it 'returns true when the journey is complete' do
       journey.entry_station = 'Old Street'
       journey.exit_station = 'Haggerston'
