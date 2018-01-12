@@ -1,6 +1,6 @@
 
 class Journey
-  
+
   PENALTY_FARE = 6.00
   MINIMUM_FARE = 1.00
   attr_accessor :entry_station, :exit_station
@@ -23,6 +23,14 @@ class Journey
   end
 
   def complete?
-    @entry_station.nil? || @exit_station.nil? ? false : true
+    started? && finished?
+  end
+
+  def started?
+    !@entry_station.nil?
+  end
+
+  def finished?
+    !@exit_station.nil?
   end
 end

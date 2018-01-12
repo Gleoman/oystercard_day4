@@ -69,5 +69,45 @@ describe Journey do
       journey.exit_station = 'Haggerston'
       expect(journey.complete?).to eq true
     end
+
+    it 'returns false when the journey is incomplete' do
+      journey.entry_station = 'Old Street'
+      journey.exit_station = nil
+      expect(journey.complete?).to eq false
+    end
+  end
+
+  describe '#started' do
+
+    it 'responds (journey) to started? method' do
+      expect(journey).to respond_to(:started?)
+    end
+
+    it 'returns true if the journey has been started' do
+      journey.entry_station = 'Old Street'
+      expect(journey.started?).to eq true
+    end
+
+    it 'returns false if the journey has not been started' do
+      journey.entry_station = nil
+      expect(journey.started?).to eq false
+    end
+  end
+
+  describe '#finished' do
+
+    it 'responds (journey) to finished? method' do
+      expect(journey).to respond_to(:finished?)
+    end
+
+    it 'returns true if the journey has been finished' do
+      journey.exit_station = 'Haggerston'
+      expect(journey.finished?).to eq true
+    end
+
+    it 'returns false if the journey has not been finished' do
+      journey.exit_station = nil
+      expect(journey.finished?).to eq false
+    end
   end
 end
