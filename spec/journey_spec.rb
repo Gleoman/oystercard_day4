@@ -16,7 +16,7 @@ describe Journey do
     end
 
     it 'starts the journey with an entry station' do
-      expect(journey.start(entry_station)).to eq entry_station
+      expect { journey.start(entry_station) } .to change { journey.entry_station } .to entry_station
     end
   end
 
@@ -27,7 +27,7 @@ describe Journey do
     end
 
     it 'finishes the journey with an exit station' do
-      expect(journey.finish(exit_station)).to eq exit_station
+      expect { journey.finish(exit_station) } .to change { journey.exit_station } .to exit_station
     end
   end
 

@@ -3,7 +3,7 @@ require_relative 'journey'
 class Oystercard
 
   MINIMUM_FARE = 1.00
-  MAXIMUM_BALANCE = 90.00 d
+  MAXIMUM_BALANCE = 90.00
 
   attr_reader :balance, :journeys, :journey
 

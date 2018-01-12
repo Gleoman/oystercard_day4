@@ -45,7 +45,7 @@ describe Oystercard do
 
     it 'should start a new journey' do
       allow(journey).to receive(:start).and_return(entry_station)
-      expect(oystercard.touch_in(entry_station)).to eq journey.start(entry_station)
+      expect(oystercard.touch_in(entry_station)).to eq entry_station
     end
   end
 

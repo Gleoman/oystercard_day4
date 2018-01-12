@@ -19,7 +19,7 @@ class Journey
   end
 
   def fare
-    complete? == true ? MINIMUM_FARE : PENALTY_FARE
+    complete? ? MINIMUM_FARE : PENALTY_FARE
   end
 
   def complete?
