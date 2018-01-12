@@ -40,17 +40,20 @@ describe Journey do
     it 'provides for the minimum fare' do
       journey.entry_station = 'Old Street'
       journey.exit_station = 'Haggerston'
+      stub_const('Oystercard::MINIMUM_FARE', 1.00)
       expect(journey.fare).to eq Journey::MINIMUM_FARE
     end
 
     it 'returns penalty fare if no entry station' do
       journey.entry_station = nil
       journey.exit_station = 'Haggerston'
+      stub_const('Oystercard::PENALTY_FARE', 6.00)
       expect(journey.fare).to eq Journey::PENALTY_FARE
     end
 
     it 'returns penalty fare if no exit station' do
       journey.entry_station = 'Old Street'
+      stub_const('Oystercard::PENALTY_FARE', 6.00)
       expect(journey.fare).to eq Journey::PENALTY_FARE
     end
   end

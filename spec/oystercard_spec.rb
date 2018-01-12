@@ -27,6 +27,7 @@ describe Oystercard do
     end
 
     it 'fails to top up beyond maximum balance' do
+      stub_const('Oystercard::MAXIMUM_BALANCE', 90.00)
       oystercard = Oystercard.new(Oystercard::MAXIMUM_BALANCE)
       expect { oystercard.top_up 1.00 }.to raise_error "cannot top-up beyond limit of #{Oystercard::MAXIMUM_BALANCE}"
     end
