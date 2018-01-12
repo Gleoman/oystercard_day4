@@ -2,21 +2,22 @@ require 'journeylog'
 
 describe Journeylog do
   subject(:journeylog) { described_class.new(journey_class) }
-  let(:journey_class) { double :journey_class }
+  let(:journey_class) { double :journey_class, new: this_journey }
   let(:entry_station) { double :entry_station }
-  let(:exit_station) { double :exit_station}
-
+  let(:exit_station) { double :exit_station }
+  let(:this_journey) { double :this_journey, entry_station: entry_station, start: entry_station, finish: exit_station  }
 
   it 'should initialize with an injected journey class' do
     expect(journeylog.journey_class).to eq journey_class
   end
 
-  # it 'should provide that the journeys array accepts the entry and exit station as a hash when pushed' do
-  #   journeylog.entry_station = "Old Street"
-  #   journeylog.exit_station = "Haggerston"
-  #   journeylog.current_journey
-  #   expect(journeylog.journeys).to include({journeylog.entry_station => journeylog.exit_station})
-  # end
+
+  it 'should provide that the journey history array accepts the entry and exit station as a hash when pushed' do
+    journeylog.entry_station = "Old Street"
+    journeylog.exit_station = "Haggerston"
+    journeylog.journeys
+    expect(journeylog.journey_history).to include({journeylog.entry_station => journeylog.exit_station})
+  end
 
   describe '#start' do
 
@@ -25,7 +26,8 @@ describe Journeylog do
     end
 
     it 'should start a new journey with an entry station' do
-      expect{ journeylog.start(entry_station) }.to change { journeylog.entry_station }.to entry_station
+      journeylog.this_journey = journey_class.new
+      expect(journeylog.start(entry_station)).to eq entry_station
     end
   end
 
@@ -36,7 +38,8 @@ describe Journeylog do
     end
 
     it 'should finish a journey with an exit station' do
-      expect{ journeylog.finish(exit_station) }.to change { journeylog.exit_station }.to exit_station
+      journeylog.this_journey = journey_class.new
+      expect(journeylog.finish(exit_station)).to eq exit_station
     end
   end
 
@@ -49,9 +52,12 @@ describe Journeylog do
     it 'should provide that the journeys array accepts the entry and exit station as a hash when pushed' do
       journeylog.entry_station = "Old Street"
       journeylog.exit_station = "Haggerston"
-      journeylog.current_journey
-      puts journeylog.journeys
-      expect(journeylog.journeys).to include({journeylog.entry_station => journeylog.exit_station})
+      journeylog.journeys
+      expect(journeylog.journey_history).to include({journeylog.entry_station => journeylog.exit_station})
+    end
+
+    it 'should list out the journey_history' do
+      expect(journeylog.journeys).to eq journeylog.journey_history
     end
   end
 
@@ -71,11 +77,20 @@ describe Journeylog do
       expect(journeylog.current_journey).to eq 'incomplete journey'
     end
 
-    it 'should end the current journey when complete' do
+    # it 'should end the current journey when complete' do
+    #   journeylog.entry_station = "Old Street"
+    #   journeylog.exit_station = "Haggerston"
+    #   expect(journeylog.current_journey).to eq journeylog.journeys
+    # end
+
+    it 'should create a new journey if the current journey is complete' do
       journeylog.entry_station = "Old Street"
       journeylog.exit_station = "Haggerston"
-      expect(journeylog.current_journey).to eq journeylog.journeys
+      expect(journeylog.current_journey).to eq journey_class.new
     end
+
+
+
   end
 
   describe '#started' do
