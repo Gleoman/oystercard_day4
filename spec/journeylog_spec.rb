@@ -5,7 +5,7 @@ describe Journeylog do
   let(:journey_class) { double :journey_class, new: this_journey }
   let(:entry_station) { double :entry_station }
   let(:exit_station) { double :exit_station }
-  let(:this_journey) { double :this_journey, entry_station: entry_station, start: entry_station, finish: exit_station  }
+  let(:this_journey) { double :this_journey, entry_station: entry_station, exit_station: exit_station, start: entry_station, finish: exit_station  }
 
   it 'should initialize with an injected journey class' do
     expect(journeylog.journey_class).to eq journey_class
@@ -13,8 +13,9 @@ describe Journeylog do
 
 
   it 'should provide that the journey history array accepts the entry and exit station as a hash when pushed' do
-    journeylog.entry_station = "Old Street"
-    journeylog.exit_station = "Haggerston"
+    journeylog.this_journey = journey_class.new
+    journeylog.start(entry_station)
+    journeylog.finish(exit_station)
     journeylog.journeys
     expect(journeylog.journey_history).to include({journeylog.entry_station => journeylog.exit_station})
   end
@@ -49,13 +50,6 @@ describe Journeylog do
       expect(journeylog).to respond_to(:journeys)
     end
 
-    it 'should provide that the journeys array accepts the entry and exit station as a hash when pushed' do
-      journeylog.entry_station = "Old Street"
-      journeylog.exit_station = "Haggerston"
-      journeylog.journeys
-      expect(journeylog.journey_history).to include({journeylog.entry_station => journeylog.exit_station})
-    end
-
     it 'should list out the journey_history' do
       expect(journeylog.journeys).to eq journeylog.journey_history
     end
@@ -63,47 +57,34 @@ describe Journeylog do
 
   describe '#current_journey' do
 
-    it 'responds to the current journey method' do
-      expect(journeylog).to respond_to(:current_journey)
-    end
-
     it 'should return incomplete journey if the entry station is nil' do
       journeylog.entry_station = nil
-      expect(journeylog.current_journey).to eq 'incomplete journey'
+      expect(journeylog.send(:current_journey)).to eq 'incomplete journey'
     end
 
     it 'should return incomplete journey if the exit station is nil' do
       journeylog.exit_station = nil
-      expect(journeylog.current_journey).to eq 'incomplete journey'
+      expect(journeylog.send(:current_journey)).to eq 'incomplete journey'
     end
-
-    # it 'should end the current journey when complete' do
-    #   journeylog.entry_station = "Old Street"
-    #   journeylog.exit_station = "Haggerston"
-    #   expect(journeylog.current_journey).to eq journeylog.journeys
-    # end
 
     it 'should create a new journey if the current journey is complete' do
       journeylog.entry_station = "Old Street"
       journeylog.exit_station = "Haggerston"
-      expect(journeylog.current_journey).to eq journey_class.new
+      expect(journeylog.send(:current_journey)).to eq journey_class.new
     end
-
-
-
   end
 
   describe '#started' do
     it 'should return true if the entry station is truthy' do
       journeylog.entry_station = "Old Street"
-      expect(journeylog.started?).to eq true
+      expect(journeylog.send(:started?)).to eq true
     end
   end
 
   describe '#finished' do
     it 'should return true if the exit station is truthy' do
       journeylog.exit_station = "Haggerston"
-      expect(journeylog.finished?).to eq true
+      expect(journeylog.send(:finished?)).to eq true
     end
   end
 end
