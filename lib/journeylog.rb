@@ -1,12 +1,14 @@
 
 class Journeylog
 
-  attr_accessor :journey_class, :entry_station, :exit_station
+  attr_accessor :journey_class, :entry_station, :exit_station, :journeys
 
   def initialize(journey_class = Journey)
     @journey_class = journey_class
     @entry_station = nil
     @exit_station = nil
+    @journeys = []
+    @journey_hash = nil
 
   end
 
@@ -14,12 +16,12 @@ class Journeylog
     @entry_station = entry_station
   end
 
-  def finish
-    true
+  def finish(exit_station)
+    @exit_station = exit_station
   end
 
   def journeys
-    true
+    @journeys.push({@entry_station => @exit_station})
   end
 
   # private
@@ -28,12 +30,8 @@ class Journeylog
     if !started? || !finished?
       'incomplete journey'
     else
-      end_journey
+      journeys
     end
-  end
-
-  def end_journey
-
   end
 
   def started?
